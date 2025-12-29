@@ -46,3 +46,26 @@ button:hover {
     from { text-shadow: 0 0 10px yellow; }
     to { text-shadow: 0 0 30px red; }
 }
+#panda-container {
+    display: none;              /* hidden initially */
+    margin-top: 20px;
+    text-align: center;
+    animation: fadeIn 1.5s ease-in-out forwards;
+}
+
+#panda-container img {
+    width: 150px;
+    max-width: 60%;
+}
+
+/* smooth appearance */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
