@@ -29,9 +29,13 @@ function typeWriter(element, text, i) {
     if (i < text.length) {
         element.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
         i++;
-        setTimeout(() => typeWriter(element, text, i), 100); // 40ms per character
+        setTimeout(() => typeWriter(element, text, i), 100);
+    } else {
+        // 🐼 Show panda after typing is finished
+        document.getElementById("panda-container").style.display = "block";
     }
 }
+
 
 /* FIREWORKS CODE BELOW */
 const canvas = document.getElementById("fireworks");
