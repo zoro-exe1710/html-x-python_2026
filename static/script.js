@@ -83,17 +83,25 @@ class Particle {
         this.y = y;
         this.color = color;
         this.radius = Math.random() * 2 + 1;
-        const speed = Math.random() * 2 + 1; // slower speed
+
+        // 🔥 VERY SLOW SPEED
+        const speed = Math.random() * 1 + 0.5;
         const angle = Math.random() * 2 * Math.PI;
+
         this.speedX = Math.cos(angle) * speed;
         this.speedY = Math.sin(angle) * speed;
-        this.life = 220; // longer life
+
+        // 🔥 LONG LIFE
+        this.life = 300;
     }
 
     update() {
         this.x += this.speedX;
         this.y += this.speedY;
-        this.speedY += 0.02; // slower gravity
+
+        // 🔥 ULTRA SLOW GRAVITY
+        this.speedY += 0.01;
+
         this.life--;
     }
 
@@ -116,7 +124,7 @@ function animateFireworks() {
     ctx.fillStyle = "rgba(0,0,0,0.2)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    if (Math.random() < 0.03) {
+    if (Math.random() < 0.008) {
         rockets.push(new Rocket());
     }
 
