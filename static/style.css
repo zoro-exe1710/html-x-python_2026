@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    text-align: center;
+    background: black;
+    color: white;
+    font-family: Arial;
+    overflow: hidden;
+}
+
+h1 {
+    margin-top: 100px;
+    font-size: 40px;
+    animation: glow 1s infinite alternate;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 18px;
+    background: gold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: orange;
+}
+
+#fireworks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px yellow; }
+    to { text-shadow: 0 0 30px red; }
+}
+#panda-container {
+    display: none;              /* hidden initially */
+    margin-top: 20px;
+    text-align: center;
+    animation: fadeIn 1.5s ease-in-out forwards;
+    #panda-container img {
+    width: 200px;
+}
+}
+
+#panda-container img {
+    width: 200px;
+    max-width: 60%;
+}
+
+/* smooth appearance */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;   /* 🔥 THIS LINE IS CRITICAL */
+}
+
