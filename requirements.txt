@@ -1,0 +1,8 @@
+flask
+render.yaml
+services:
+  - type: web
+    name: newyear-surprise
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
