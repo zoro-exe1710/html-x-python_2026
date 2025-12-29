@@ -14,15 +14,12 @@ function getWish() {
         },
         body: JSON.stringify({ name: name })
     })
+    .then(res => res.text())
     .then(data => {
-    const result = document.getElementById("result");
-    result.innerHTML = ""; // 🔥 IMPORTANT reset
-    document.getElementById("panda-container").style.display = "none";
-
-    const fullText = `🎉 Happy New Year, ${name}! 🎊\n\n${data}`;
-    typeWriter(result, fullText, 0);
-});
-
+        const result = document.getElementById("result");
+        const fullText = `🎉 Happy New Year , ${name}! 🎊\n\n${data}`;
+        typeWriter(result, fullText, 0);
+    });
 
     document.getElementById("music").play();
 }
@@ -31,15 +28,10 @@ function getWish() {
 function typeWriter(element, text, i) {
     if (i < text.length) {
         element.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
-        setTimeout(() => typeWriter(element, text, i + 1), 100);
-    } else {
-        // 🐼 show panda
-        const panda = document.getElementById("panda-container");
-        panda.style.display = "block";
+        i++;
+        setTimeout(() => typeWriter(element, text, i), 85); // 40ms per character
     }
 }
-
-
 
 /* FIREWORKS CODE BELOW */
 const canvas = document.getElementById("fireworks");
@@ -91,25 +83,17 @@ class Particle {
         this.y = y;
         this.color = color;
         this.radius = Math.random() * 2 + 1;
-
-        // 🔥 VERY SLOW SPEED
-        const speed = Math.random() * 1 + 0.5;
+        const speed = Math.random() * 4 + 2;
         const angle = Math.random() * 2 * Math.PI;
-
         this.speedX = Math.cos(angle) * speed;
         this.speedY = Math.sin(angle) * speed;
-
-        // 🔥 LONG LIFE
-        this.life = 300;
+        this.life = 120;
     }
 
     update() {
         this.x += this.speedX;
         this.y += this.speedY;
-
-        // 🔥 ULTRA SLOW GRAVITY
-        this.speedY += 0.01;
-
+        this.speedY += 0.05;
         this.life--;
     }
 
@@ -121,7 +105,6 @@ class Particle {
     }
 }
 
-
 function explode(x, y, color) {
     for (let i = 0; i < 80; i++) {
         particles.push(new Particle(x, y, color));
@@ -132,7 +115,7 @@ function animateFireworks() {
     ctx.fillStyle = "rgba(0,0,0,0.2)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    if (Math.random() < 0.008) {
+    if (Math.random() < 0.03) {
         rockets.push(new Rocket());
     }
 
