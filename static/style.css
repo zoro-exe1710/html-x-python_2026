@@ -51,13 +51,10 @@ button:hover {
     margin-top: 20px;
     text-align: center;
     animation: fadeIn 1.5s ease-in-out forwards;
-    #panda-container img {
-    width: 200px;
-}
 }
 
 #panda-container img {
-    width: 200px;
+    width: 150px;
     max-width: 60%;
 }
 
