@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request
 from datetime import datetime
 import random
+import hashlib
 
 app = Flask(__name__)
+
 # Home page
 @app.route("/")
 def home():
@@ -18,10 +20,9 @@ def wish():
     with open("names.txt", "a") as f:
         f.write(f"{name} | {now}\n")
 
-    # Choose a random quote
+    # Get quote
     quote = get_quote(name)
     return quote
-
 
 # Admin page
 @app.route("/admin", methods=["GET"])
@@ -38,12 +39,10 @@ def admin():
 
     return render_template("admin.html", entries=entries)
 
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
-import random
-import hashlib
 
+# ------------------- Quote Function -------------------
 def get_quote(name):
     name_clean = name.lower().strip()
     name_hash = hashlib.sha256(name_clean.encode()).hexdigest()
@@ -57,12 +56,13 @@ def get_quote(name):
     # Private quote for special names
     if name_hash in SECRET_HASHES:
         return (
-            "Some people come into our lives quietly,\n"
-            "without meaning to change anything.\n\n"
-            "But somehow, things feel a little better with them around.\n"
-            "If this new year brings you calm days,\n"
-            "comfortable moments, and simple happiness,\n"
-            "then it’s already going well."
+            "Some people enter our lives quietly,\n"
+            "without needing to say much.\n\n"
+            "Yet their presence somehow makes everything feel lighter.\n\n"
+            "As this new year begins, may your days be calm,\n"
+            "your moments comfortable, and your heart filled with simple joys.\n\n"
+            "Happy New Year! 🎉\n"
+            "May this year be bright, cheerful, and full of little surprises that make you smile."
         )
 
     # General quotes for everyone else
