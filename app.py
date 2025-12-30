@@ -3,16 +3,6 @@ from datetime import datetime
 import random
 
 app = Flask(__name__)
-
-# List of long, festive quotes
-quotes = [
-    "✨ May this New Year bring you peace, joy, and success in every step you take. Let every day shine brighter than the last! ✨",
-    "🎆 Wishing you a year filled with adventure, laughter, and dreams coming true. May happiness follow you everywhere! 🎆",
-    "🌟 As the fireworks light up the sky, may your life be illuminated with love, health, and prosperity throughout the year! 🌟",
-    "🎉 Cheers to a fresh start, new opportunities, and beautiful memories. May this year be your best chapter yet! 🎉",
-    "💫 May your journey ahead be as colorful and magical as these fireworks. Wishing you endless joy and success! 💫"
-]
-
 # Home page
 @app.route("/")
 def home():
@@ -29,8 +19,9 @@ def wish():
         f.write(f"{name} | {now}\n")
 
     # Choose a random quote
-    quote = random.choice(quotes)
+    quote = get_quote(name)
     return quote
+
 
 # Admin page
 @app.route("/admin", methods=["GET"])
@@ -50,3 +41,43 @@ def admin():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+import random
+import hashlib
+
+def get_quote(name):
+    name_clean = name.lower().strip()
+    name_hash = hashlib.sha256(name_clean.encode()).hexdigest()
+
+    # 🔐 Hidden hashes for private names
+    SECRET_HASHES = [
+        "fe9e52d99d47fb6fc686df14e7b437d7a7b4215bc8555043335ec2ec2fdba629",  # likitha
+        "97a993f4d571b66972a9a5b8660709e021ca03b725f222a83aedc570bc835769"   # likitha s / Likitha s
+    ]
+
+    # Private quote for special names
+    if name_hash in SECRET_HASHES:
+        return (
+            "Some people come into our lives quietly,\n"
+            "without meaning to change anything.\n\n"
+            "But somehow, things feel a little better with them around.\n"
+            "If this new year brings you calm days,\n"
+            "comfortable moments, and simple happiness,\n"
+            "then it’s already going well."
+        )
+
+    # General quotes for everyone else
+    general_quotes = [
+        "May this new year gently remind you how strong you are,\n"
+        "how far you’ve come, and how much more happiness\n"
+        "you truly deserve.",
+
+        "Let this year be softer on your heart,\n"
+        "brighter in your dreams,\n"
+        "and kinder to your soul.",
+
+        "Some years change us loudly.\n"
+        "Some change us quietly.\n"
+        "May this one change you beautifully."
+    ]
+
+    return random.choice(general_quotes)
