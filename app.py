@@ -5,43 +5,6 @@ import hashlib
 
 app = Flask(__name__)
 
-# Home page
-@app.route("/")
-def home():
-    return render_template("index.html")
-
-# Wish route
-@app.route("/wish", methods=["POST"])
-def wish():
-    name = request.json.get("name")
-
-    # Save name with timestamp
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open("names.txt", "a") as f:
-        f.write(f"{name} | {now}\n")
-
-    # Get quote
-    quote = get_quote(name)
-    return quote
-
-# Admin page
-@app.route("/admin", methods=["GET"])
-def admin():
-    password = request.args.get("password")
-    if password != "html-x-python-2026ok":
-        return "❌ Access denied."
-
-    try:
-        with open("names.txt", "r") as f:
-            entries = f.read().splitlines()
-    except FileNotFoundError:
-        entries = []
-
-    return render_template("admin.html", entries=entries)
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
-
 # ------------------- Quote Function -------------------
 def get_quote(name):
     name_clean = name.lower().strip()
@@ -79,5 +42,48 @@ def get_quote(name):
         "Some change us quietly.\n"
         "May this one change you beautifully."
     ]
-
+    
     return random.choice(general_quotes)
+
+
+# ------------------- Routes -------------------
+# Home page
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+# Wish route
+@app.route("/wish", methods=["POST"])
+def wish():
+    name = request.json.get("name")
+
+    # Save name with timestamp
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open("names.txt", "a") as f:
+        f.write(f"{name} | {now}\n")
+
+    # Get quote
+    quote = get_quote(name)
+    return quote
+
+# Admin page
+@app.route("/admin", methods=["GET"])
+def admin():
+    password = request.args.get("password")
+    if password != "html-x-python-2026ok":
+        return "❌ Access denied."
+
+    try:
+        with open("names.txt", "r") as f:
+            entries = f.read().splitlines()
+    except FileNotFoundError:
+        entries = []
+
+    return render_template("admin.html", entries=entries)
+
+
+# ------------------- Run App -------------------
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
+
+
