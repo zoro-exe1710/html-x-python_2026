@@ -1,3 +1,4 @@
+/* ======================= BODY ======================= */
 body {
     margin: 0;
     text-align: center;
@@ -5,22 +6,37 @@ body {
     color: white;
     font-family: Arial, sans-serif;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding-top: 80px; /* spacing from top */
 }
 
-h1 {
-    margin-top: 100px;
-    font-size: 40px;
-    animation: glow 1.5s infinite alternate;
+/* ======================= MAIN HEADING ======================= */
+h1#main-heading {
+    display: none; /* Show after name entry */
+    font-size: 36px;
     color: gold;
-    text-shadow: 0 0 10px #fff, 0 0 20px orange, 0 0 30px red;
+    text-shadow: 0 0 15px #fff, 0 0 25px orange, 0 0 35px gold;
+    margin-bottom: 30px;
 }
 
-input {
+/* ======================= INPUT & BUTTON ======================= */
+p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
     padding: 10px;
     font-size: 16px;
     border-radius: 8px;
     border: none;
     outline: none;
+    width: 250px;
+    text-align: center;
 }
 
 button {
@@ -30,6 +46,7 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    margin-top: 15px;
     transition: all 0.3s ease;
 }
 
@@ -38,7 +55,15 @@ button:hover {
     transform: scale(1.05);
 }
 
-#fireworks {
+/* ======================= RESULT ======================= */
+#result {
+    margin-top: 25px;
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+/* ======================= CANVAS ======================= */
+canvas#fireworks {
     position: fixed;
     top: 0;
     left: 0;
@@ -47,61 +72,16 @@ button:hover {
     z-index: -1;
 }
 
-@keyframes glow {
-    0% { text-shadow: 0 0 10px yellow; }
-    50% { text-shadow: 0 0 20px orange, 0 0 30px gold; }
-    100% { text-shadow: 0 0 30px red, 0 0 40px gold, 0 0 50px white; }
-}
-
-#panda-container {
-    display: none;              
-    margin-top: 20px;
-    text-align: center;
-    animation: fadeIn 1.5s ease-in-out forwards;
-}
-
-#panda-container img {
-    width: 150px;
-    max-width: 60%;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.8); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
-#main-heading {
-    text-align: center;
-    color: gold;
-    text-shadow: 0 0 15px #fff, 0 0 25px orange, 0 0 35px gold;
-    animation: fadeDown 1.2s ease;
-}
-
-@keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
+/* ======================= CREDIT ======================= */
 .credit {
     margin-top: 15px;
     font-size: 14px;
     color: rgba(255, 255, 255, 0.7);
     font-style: italic;
-    opacity: 0;
-    transition: opacity 2s ease;
     text-align: center;
 }
 
-/* Firework particle enhancements for JS compatibility */
+/* ======================= FIREWORK PARTICLES ======================= */
 .particle {
     border-radius: 50%;
     opacity: 0.9;
