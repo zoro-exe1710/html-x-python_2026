@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Year Surprise</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        /* Center all content and style nicely */
+        body {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        h1 {
+            display: none; /* Show after name entry */
+            font-size: 36px;
+            color: gold;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 6px orange;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 20px 0 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            width: 250px;
+            text-align: center;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            background: gold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: orange;
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 20px;
+            line-height: 1.6;
+        }
+
+        #panda-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #panda-container img {
+            width: 150px;
+            max-width: 60%;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .credit {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 16px;
+            text-shadow: 1px 1px 2px black;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<h1 id="main-heading">🎉 Happy New Year 2026 🎉</h1>
+
+<p>Enter your name for a surprise</p>
+<input type="text" id="name" placeholder="Enter your name">
+<br>
+<button onclick="getWish()">Click Me for the surprise 🎁</button>
+
+<h2 id="result"></h2>
+
+<!-- Panda below quote -->
+<div id="panda-container">
+    <img src="/static/panda.png" alt="Cute Panda">
+</div>
+
+<audio id="music" src="/static/music.mp3"></audio>
+
+<script src="/static/script.js"></script>
+
+<div class="credit">
+    🌟 This New Year Surprise App is created by Vishnu m 🌟
+</div>
+
+</body>
+</html>
