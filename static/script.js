@@ -9,9 +9,7 @@ function getWish() {
 
     fetch("/wish", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name })
     })
     .then(res => res.text())
@@ -19,11 +17,7 @@ function getWish() {
         const result = document.getElementById("result");
         result.innerHTML = "";
 
-        // Show heading AFTER name entry
-        const heading = document.getElementById("main-heading");
-        heading.style.display = "block";
-
-        // Hide panda until typing ends
+        document.getElementById("main-heading").style.display = "block";
         document.getElementById("panda-container").style.display = "none";
 
         const fullText = `Dear ${name},\n\n${quote}`;
@@ -33,166 +27,86 @@ function getWish() {
     document.getElementById("music").play();
 }
 
-
-/* ===================== TYPEWRITER + VOICE ===================== */
-
 function typeWriter(element, text, i, name) {
     if (i < text.length) {
         element.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
         setTimeout(() => typeWriter(element, text, i + 1, name), 100);
     } else {
         // Typing finished
-
         const panda = document.getElementById("panda-container");
         const lowerName = name.toLowerCase();
 
-        // Default delay
         let pandaDelay = 500;
         let voiceDelay = 800;
         let softVoice = false;
 
-        // 🔐 Hidden emotional condition
-        if (lowerName === "likitha" || lowerName === "likitha s" || lowerName==="Likitha s") {
+        if (lowerName === "likitha" || lowerName === "likitha s") {
             pandaDelay = 1200;
             voiceDelay = 1500;
             softVoice = true;
         }
 
-        // Show panda
-        setTimeout(() => {
-            panda.style.display = "block";
-        }, pandaDelay);
-
-        // Play voice
-        setTimeout(() => {
-            speakText(text, softVoice);
-        }, voiceDelay);
+        setTimeout(() => panda.style.display = "block", pandaDelay);
+        setTimeout(() => speakText(text, softVoice), voiceDelay);
     }
 }
-function speakText(text, soft = false) {
+
+function speakText(text, soft=false) {
     if (!window.speechSynthesis) return;
-
-    // Stop any previous narration
     speechSynthesis.cancel();
-
     const msg = new SpeechSynthesisUtterance(text);
-
-    // Whisper-style tuning
-    msg.rate = soft ? 0.8 : 0.88;     // slower, natural
-    msg.pitch = soft ? 0.95 : 1.05;   // calmer tone
-    msg.volume = soft ? 0.65 : 0.9;   // softer volume
-
+    msg.rate = soft ? 0.8 : 0.88;
+    msg.pitch = soft ? 0.95 : 1.05;
+    msg.volume = soft ? 0.65 : 0.9;
     const voices = speechSynthesis.getVoices();
-    msg.voice = voices.find(v => v.lang === "en-IN")
-              || voices.find(v => v.lang.startsWith("en"))
-              || voices[0];
-
-    // Slight pause before speaking (feels thoughtful)
-    setTimeout(() => {
-        speechSynthesis.speak(msg);
-    }, soft ? 1200 : 700);
+    msg.voice = voices.find(v => v.lang === "en-IN") || voices.find(v => v.lang.startsWith("en")) || voices[0];
+    setTimeout(() => speechSynthesis.speak(msg), soft ? 1200 : 700);
 }
 
-
-
-
-/* ===================== FIREWORKS BACKGROUND ===================== */
-
+/* ===================== FIREWORKS ===================== */
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
-
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-window.onresize = () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-};
+window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
 
-let rockets = [];
-let particles = [];
-
-const colors = ["red", "yellow", "orange", "lime", "cyan", "magenta", "white", "gold"];
+let rockets = [], particles = [];
+const colors = ["red","yellow","orange","lime","cyan","magenta","white","gold"];
 
 class Rocket {
     constructor() {
         this.x = Math.random() * canvas.width;
         this.y = canvas.height;
-        this.speed = Math.random() * 1.2 + 1.5; // slower
-        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.speed = Math.random() * 1.2 + 1.5;
+        this.color = colors[Math.floor(Math.random()*colors.length)];
         this.exploded = false;
     }
-
     update() {
         this.y -= this.speed;
-        if (this.y < canvas.height / 3) {
-            this.exploded = true;
-            explode(this.x, this.y, this.color);
-        }
+        if (this.y < canvas.height/3) { this.exploded = true; explode(this.x,this.y,this.color); }
     }
-
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-    }
+    draw() { ctx.beginPath(); ctx.arc(this.x,this.y,3,0,Math.PI*2); ctx.fillStyle=this.color; ctx.fill(); }
 }
 
 class Particle {
-    constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.radius = Math.random() * 2 + 1;
-        const speed = Math.random() * 3 + 1;
-        const angle = Math.random() * Math.PI * 2;
-        this.speedX = Math.cos(angle) * speed;
-        this.speedY = Math.sin(angle) * speed;
-        this.life = 140;
+    constructor(x,y,color){
+        this.x=x; this.y=y; this.color=color; this.radius=Math.random()*2+1;
+        const speed = Math.random()*3+1; const angle = Math.random()*Math.PI*2;
+        this.speedX=Math.cos(angle)*speed; this.speedY=Math.sin(angle)*speed; this.life=140;
     }
-
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.speedY += 0.03;
-        this.life--;
-    }
-
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-    }
+    update(){ this.x+=this.speedX; this.y+=this.speedY; this.speedY+=0.03; this.life--; }
+    draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.radius,0,Math.PI*2); ctx.fillStyle=this.color; ctx.fill(); }
 }
 
-function explode(x, y, color) {
-    for (let i = 0; i < 60; i++) {
-        particles.push(new Particle(x, y, color));
-    }
-}
+function explode(x,y,color){ for(let i=0;i<60;i++) particles.push(new Particle(x,y,color)); }
 
-function animateFireworks() {
-    ctx.fillStyle = "rgba(0,0,0,0.25)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    if (Math.random() < 0.015) {
-        rockets.push(new Rocket());
-    }
-
-    rockets.forEach((r, i) => {
-        r.update();
-        r.draw();
-        if (r.exploded) rockets.splice(i, 1);
-    });
-
-    particles.forEach((p, i) => {
-        p.update();
-        p.draw();
-        if (p.life <= 0) particles.splice(i, 1);
-    });
-
+function animateFireworks(){
+    ctx.fillStyle="rgba(0,0,0,0.25)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    if(Math.random()<0.015) rockets.push(new Rocket());
+    rockets.forEach((r,i)=>{ r.update(); r.draw(); if(r.exploded) rockets.splice(i,1); });
+    particles.forEach((p,i)=>{ p.update(); p.draw(); if(p.life<=0) particles.splice(i,1); });
     requestAnimationFrame(animateFireworks);
 }
 
