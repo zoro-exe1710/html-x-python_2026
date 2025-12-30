@@ -15,33 +15,89 @@ function getWish() {
         body: JSON.stringify({ name: name })
     })
     .then(res => res.text())
-    .then(data => {
-    const result = document.getElementById("result");
-    result.innerHTML = "";
+    .then(quote => {
+        const result = document.getElementById("result");
+        result.innerHTML = "";
 
-    // 🔥 SHOW MAIN HEADING AFTER NAME IS ENTERED
-    const heading = document.getElementById("main-heading");
-    heading.style.display = "block";
+        // Show heading AFTER name entry
+        const heading = document.getElementById("main-heading");
+        heading.style.display = "block";
 
-    document.getElementById("panda-container").style.display = "none";
+        // Hide panda until typing ends
+        document.getElementById("panda-container").style.display = "none";
 
-    const fullText = `${data}`;
-    typeWriter(result, fullText, 0);
-});
+        const fullText = `Dear ${name},\n\n${quote}`;
+        typeWriter(result, fullText, 0, name);
+    });
 
     document.getElementById("music").play();
 }
 
-// Typing effect function
-function typeWriter(element, text, i) {
+
+/* ===================== TYPEWRITER + VOICE ===================== */
+
+function typeWriter(element, text, i, name) {
     if (i < text.length) {
         element.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
-        i++;
-        setTimeout(() => typeWriter(element, text, i), 85); // 40ms per character
+        setTimeout(() => typeWriter(element, text, i + 1, name), 100);
+    } else {
+        // Typing finished
+
+        const panda = document.getElementById("panda-container");
+        const lowerName = name.toLowerCase();
+
+        // Default delay
+        let pandaDelay = 500;
+        let voiceDelay = 800;
+        let softVoice = false;
+
+        // 🔐 Hidden emotional condition
+        if (lowerName === "likitha" || lowerName === "likitha s" || lowerName==="Likitha s") {
+            pandaDelay = 1200;
+            voiceDelay = 1500;
+            softVoice = true;
+        }
+
+        // Show panda
+        setTimeout(() => {
+            panda.style.display = "block";
+        }, pandaDelay);
+
+        // Play voice
+        setTimeout(() => {
+            speakText(text, softVoice);
+        }, voiceDelay);
     }
 }
+function speakText(text, soft = false) {
+    if (!window.speechSynthesis) return;
 
-/* FIREWORKS CODE BELOW */
+    // Stop any previous narration
+    speechSynthesis.cancel();
+
+    const msg = new SpeechSynthesisUtterance(text);
+
+    // Whisper-style tuning
+    msg.rate = soft ? 0.8 : 0.88;     // slower, natural
+    msg.pitch = soft ? 0.95 : 1.05;   // calmer tone
+    msg.volume = soft ? 0.65 : 0.9;   // softer volume
+
+    const voices = speechSynthesis.getVoices();
+    msg.voice = voices.find(v => v.lang === "en-IN")
+              || voices.find(v => v.lang.startsWith("en"))
+              || voices[0];
+
+    // Slight pause before speaking (feels thoughtful)
+    setTimeout(() => {
+        speechSynthesis.speak(msg);
+    }, soft ? 1200 : 700);
+}
+
+
+
+
+/* ===================== FIREWORKS BACKGROUND ===================== */
+
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 
@@ -62,15 +118,13 @@ class Rocket {
     constructor() {
         this.x = Math.random() * canvas.width;
         this.y = canvas.height;
-        this.speed = Math.random() * 1.5 + 2.5;
-        this.angle = Math.random() * Math.PI / 4 - Math.PI / 8;
+        this.speed = Math.random() * 1.2 + 1.5; // slower
         this.color = colors[Math.floor(Math.random() * colors.length)];
         this.exploded = false;
     }
 
     update() {
-        this.y -= this.speed * Math.cos(this.angle);
-        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed;
         if (this.y < canvas.height / 3) {
             this.exploded = true;
             explode(this.x, this.y, this.color);
@@ -91,17 +145,17 @@ class Particle {
         this.y = y;
         this.color = color;
         this.radius = Math.random() * 2 + 1;
-        const speed = Math.random() * 4 + 2;
-        const angle = Math.random() * 2 * Math.PI;
+        const speed = Math.random() * 3 + 1;
+        const angle = Math.random() * Math.PI * 2;
         this.speedX = Math.cos(angle) * speed;
         this.speedY = Math.sin(angle) * speed;
-        this.life = 120;
+        this.life = 140;
     }
 
     update() {
         this.x += this.speedX;
         this.y += this.speedY;
-        this.speedY += 0.05;
+        this.speedY += 0.03;
         this.life--;
     }
 
@@ -114,16 +168,16 @@ class Particle {
 }
 
 function explode(x, y, color) {
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 60; i++) {
         particles.push(new Particle(x, y, color));
     }
 }
 
 function animateFireworks() {
-    ctx.fillStyle = "rgba(0,0,0,0.2)";
+    ctx.fillStyle = "rgba(0,0,0,0.25)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    if (Math.random() < 0.03) {
+    if (Math.random() < 0.015) {
         rockets.push(new Rocket());
     }
 
