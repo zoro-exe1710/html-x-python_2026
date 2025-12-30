@@ -51,26 +51,6 @@ function typeWriter(element, text, i, name) {
         speakText(text, softVoice);
     }
 }
-
-// ===================== SPEECH SYNTHESIS =====================
-function speakText(text, soft = false) {
-    if (!window.speechSynthesis) return;
-
-    speechSynthesis.cancel();
-
-    const msg = new SpeechSynthesisUtterance(text);
-    msg.rate = soft ? 0.8 : 0.88;
-    msg.pitch = soft ? 0.95 : 1.05;
-    msg.volume = soft ? 0.65 : 0.9;
-
-    const voices = speechSynthesis.getVoices();
-    // Pick Indian accent first
-    const indianVoice = voices.find(v => v.lang === "en-IN") || voices.find(v => v.name.includes("Hindi"));
-    msg.voice = indianVoice || voices[0];
-
-    setTimeout(() => speechSynthesis.speak(msg), soft ? 1200 : 700);
-}
-
 // ===================== FIREWORKS BACKGROUND =====================
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
