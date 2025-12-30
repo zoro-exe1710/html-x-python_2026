@@ -16,10 +16,18 @@ function getWish() {
     })
     .then(res => res.text())
     .then(data => {
-        const result = document.getElementById("result");
-        const fullText = `🎉 Happy New Year , ${name}! 🎊\n\n${data}`;
-        typeWriter(result, fullText, 0);
-    });
+    const result = document.getElementById("result");
+    result.innerHTML = "";
+
+    // 🔥 SHOW MAIN HEADING AFTER NAME IS ENTERED
+    const heading = document.getElementById("main-heading");
+    heading.style.display = "block";
+
+    document.getElementById("panda-container").style.display = "none";
+
+    const fullText = `${data}`;
+    typeWriter(result, fullText, 0);
+});
 
     document.getElementById("music").play();
 }
