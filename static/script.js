@@ -11,23 +11,27 @@ function getWish(){
         body:JSON.stringify({name:name})
     })
     .then(res=>res.text())
-    .then(quote=>{
-        const result=document.getElementById("result");
-        result.innerHTML="";
-        document.getElementById("main-heading").style.display="block";
-        const fullText=`Dear ${name},\n\n${quote}`;
-        typeWriter(result,fullText,0);
-    });
+    .then(quote => {
+    const result = document.getElementById("result");
+    result.innerHTML = "";
+
+    document.getElementById("main-heading").style.display = "block";
+
+    const fullText = `<strong>Dear ${name},</strong>\n\n${quote}`;
+    typeWriter(result, fullText, 0);
+});
+
 
     document.getElementById("music").play();
 }
 
-function typeWriter(el,text,i){
-    if(i<text.length){
-        el.innerHTML+=text.charAt(i)==="\n"?"<br>":text.charAt(i);
-        setTimeout(()=>typeWriter(el,text,i+1),100);
+function typeWriter(element, text, i) {
+    if (i < text.length) {
+        element.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
+        setTimeout(() => typeWriter(element, text, i + 1), 40);
     }
 }
+
 
 const canvas=document.getElementById("fireworks"),ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
