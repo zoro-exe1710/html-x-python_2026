@@ -12,11 +12,11 @@ def get_quote(name):
 
     # 🔐 Hidden hashes for private names
     SECRET_HASHES = [
-        "fe9e52d99d47fb6fc686df14e7b437d7a7b4215bc8555043335ec2ec2fdba629",  # l
-        "97a993f4d571b66972a9a5b8660709e021ca03b725f222a83aedc570bc835769"   # l
-        "d9c1e9c9f06a2c6e3e7a0e6bff0d44c44c7b9c9b1bb3c0c7a4c5f9c0b3b0a2d4"
-        "9c7bb45f9a44a2f6d7e7e2db9a39e4cf1d7c84a1e5b8a1c9e8c3b9a7d4f2e5a1"
-        "f2c4a0c1a2a93e9a1a3a0a7c8b9e2e5c7d1b0a9f3c6e8d9b4a5c7e1f2d3b8"
+        "fe9e52d99d47fb6fc686df14e7b437d7a7b4215bc8555043335ec2ec2fdba629", 
+        "97a993f4d571b66972a9a5b8660709e021ca03b725f222a83aedc570bc835769",  
+        "d9c1e9c9f06a2c6e3e7a0e6bff0d44c44c7b9c9b1bb3c0c7a4c5f9c0b3b0a2d4",
+        "9c7bb45f9a44a2f6d7e7e2db9a39e4cf1d7c84a1e5b8a1c9e8c3b9a7d4f2e5a1",
+        "f2c4a0c1a2a93e9a1a3a0a7c8b9e2e5c7d1b0a9f3c6e8d9b4a5c7e1f2d3b8",
         "9f2d8c4a7b3e6a5c1f0d9e8b2a4c6f7e3d1b5a0c9e8f4b6d7a2c3e1"
     ]       
 
