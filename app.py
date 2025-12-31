@@ -12,9 +12,13 @@ def get_quote(name):
 
     # 🔐 Hidden hashes for private names
     SECRET_HASHES = [
-        "fe9e52d99d47fb6fc686df14e7b437d7a7b4215bc8555043335ec2ec2fdba629",  # likitha
-        "97a993f4d571b66972a9a5b8660709e021ca03b725f222a83aedc570bc835769"   # likitha s / Likitha s
-    ]
+        "fe9e52d99d47fb6fc686df14e7b437d7a7b4215bc8555043335ec2ec2fdba629",  # l
+        "97a993f4d571b66972a9a5b8660709e021ca03b725f222a83aedc570bc835769"   # l
+        "d9c1e9c9f06a2c6e3e7a0e6bff0d44c44c7b9c9b1bb3c0c7a4c5f9c0b3b0a2d4"
+        "9c7bb45f9a44a2f6d7e7e2db9a39e4cf1d7c84a1e5b8a1c9e8c3b9a7d4f2e5a1"
+        "f2c4a0c1a2a93e9a1a3a0a7c8b9e2e5c7d1b0a9f3c6e8d9b4a5c7e1f2d3b8"
+        "9f2d8c4a7b3e6a5c1f0d9e8b2a4c6f7e3d1b5a0c9e8f4b6d7a2c3e1"
+    ]       
 
     # Private quote for special names
     if name_hash in SECRET_HASHES:
@@ -30,17 +34,34 @@ def get_quote(name):
 
     # General quotes for everyone else
     general_quotes = [
-        "May this new year gently remind you how strong you are,\n"
-        "how far you’ve come, and how much more happiness\n"
-        "you truly deserve.",
+        "May this new year gently remind you how strong you truly are,\n"
+        "not just in the big moments, but in all the quiet days you kept going.\n\n"
+        "May it remind you of how far you’ve come,\n"
+        "of the lessons you learned, the challenges you faced,\n"
+        "and the courage you showed even when no one noticed.\n\n"
+        "And above all, may this year bring you the kind of happiness\n"
+        "that feels calm, genuine, and lasting —\n"
+        "the kind you truly deserve.",
+
 
         "Let this year be softer on your heart,\n"
-        "brighter in your dreams,\n"
-        "and kinder to your soul.",
+        "giving you space to breathe, heal, and feel at ease.\n\n"
+        "May your dreams feel brighter and clearer,\n"
+        "guiding you toward moments that truly matter to you.\n\n"
+        "And may your soul be treated with kindness —\n"
+        "through peaceful days, small joys, and quiet happiness\n"
+        "that stays with you as the year goes on.",
+        
+        
+        "Some years arrive with noise and rush,\n"
+        "shaping us through moments we never forget.\n\n"
+        "Others move softly, almost unnoticed,\n"
+        "changing us in small, meaningful ways.\n\n"
+        "May this year touch your life gently,\n"
+        "guide you toward growth without pressure,\n"
+        "and change you beautifully —\n"
+        "in ways you’ll only realize when you look back."
 
-        "Some years change us loudly.\n"
-        "Some change us quietly.\n"
-        "May this one change you beautifully."
     ]
     
     return random.choice(general_quotes)
@@ -57,14 +78,14 @@ def home():
 def wish():
     name = request.json.get("name")
 
-    # Save name with timestamp
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open("names.txt", "a") as f:
-        f.write(f"{name} | {now}\n")
-
-    # Get quote
     quote = get_quote(name)
+
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open("names.txt", "a", encoding="utf-8") as f:
+        f.write(f"{name} | {quote.replace(chr(10), ' ')} | {now}\n")
+
     return quote
+
 
 # Admin page
 @app.route("/admin", methods=["GET"])
